@@ -55,12 +55,10 @@ import { HEROES } from './mock-heroes';
 	  margin-right: .8em;
 	  border-radius: 4px 0 0 4px;
 	}
-  `],
-	providers: [HeroService]
+  `]
 })
 
-export class HeroListComponent implements OnInit {	
-	title = 'Tour of Heroes';
+export class HeroListComponent implements OnInit {
 	heroes: Hero[];
 	selectedHero: Hero;
 
