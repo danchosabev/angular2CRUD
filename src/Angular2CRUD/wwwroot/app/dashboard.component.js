@@ -11,33 +11,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var hero_service_1 = require('./hero.service');
 var router_1 = require('@angular/router');
-var HeroListComponent = (function () {
-    function HeroListComponent(router, heroService) {
+var DashboardComponent = (function () {
+    function DashboardComponent(router, heroService) {
         this.router = router;
         this.heroService = heroService;
+        this.heroes = [];
     }
-    HeroListComponent.prototype.getHeroes = function () {
+    DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.heroService.getHeroes()
-            .then(function (heroes) { return _this.heroes = heroes; });
+            .then(function (heroes) { return _this.heroes = heroes.slice(1, 5); });
     };
-    HeroListComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
+    DashboardComponent.prototype.gotoDetail = function (hero) {
+        var link = ['/detail', hero.id];
+        this.router.navigate(link);
     };
-    HeroListComponent.prototype.onSelect = function (hero) {
-        this.selectedHero = hero;
-    };
-    HeroListComponent.prototype.gotoDetail = function () {
-        this.router.navigate(['/detail', this.selectedHero.id]);
-    };
-    HeroListComponent = __decorate([
+    DashboardComponent = __decorate([
         core_1.Component({
-            selector: 'my-app-hero-list',
-            templateUrl: 'view/app-hero-list.component.html',
-            styleUrls: ['view/app-hero-list.component.css']
+            selector: 'my-dashboard',
+            templateUrl: 'view/dashboard.component.html',
+            styleUrls: ['view/dashboard.component.css']
         }), 
         __metadata('design:paramtypes', [router_1.Router, hero_service_1.HeroService])
-    ], HeroListComponent);
-    return HeroListComponent;
+    ], DashboardComponent);
+    return DashboardComponent;
 }());
-exports.HeroListComponent = HeroListComponent;
+exports.DashboardComponent = DashboardComponent;

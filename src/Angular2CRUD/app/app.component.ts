@@ -2,7 +2,8 @@
 
 @Component({
 	selector: 'my-app',
-	templateUrl: 'view/app.component.html', //'<h1>My Second Angular 2 App</h1>',
+	templateUrl: 'view/app.component.html',
+	styleUrls: ['view/app.component.css']
 })
 export class AppComponent {
 	title = 'Tour of Heroes';

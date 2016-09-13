@@ -9,18 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
-        this.title = 'Tour of Heroes';
+var hero_1 = require('./hero');
+var HeroDetailsComponent = (function () {
+    function HeroDetailsComponent() {
     }
-    AppComponent = __decorate([
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', hero_1.Hero)
+    ], HeroDetailsComponent.prototype, "hero", void 0);
+    HeroDetailsComponent = __decorate([
         core_1.Component({
-            selector: 'my-app',
-            templateUrl: 'view/app.component.html',
-            styleUrls: ['view/app.component.css']
+            selector: 'my-app-hero-details',
+            templateUrl: 'view/app-hero-details.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], HeroDetailsComponent);
+    return HeroDetailsComponent;
 }());
-exports.AppComponent = AppComponent;
+exports.HeroDetailsComponent = HeroDetailsComponent;
+//# sourceMappingURL=app-hero-details.component.js.map

@@ -6,6 +6,7 @@ import { AppComponent }   from './app.component';
 import { TestComponent } from './app-test.component';
 import { HeroListComponent } from './app-hero-list.component';
 import { HeroDetailsComponent } from './app-hero-details.component';
+import { DashboardComponent } from './dashboard.component';
 import { HeroService } from './hero.service';
 
 import { routing } from './app.routing';
@@ -20,7 +21,8 @@ import { routing } from './app.routing';
 		AppComponent,
 		TestComponent,
 		HeroListComponent,
-		HeroDetailsComponent
+		HeroDetailsComponent,
+		DashboardComponent
 	],
 	providers: [
 		HeroService

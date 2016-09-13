@@ -9,20 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var hero_1 = require('./hero');
+var router_1 = require('@angular/router');
+var hero_service_1 = require('./hero.service');
 var HeroDetailsComponent = (function () {
-    function HeroDetailsComponent() {
+    function HeroDetailsComponent(heroService, route) {
+        this.heroService = heroService;
+        this.route = route;
     }
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', hero_1.Hero)
-    ], HeroDetailsComponent.prototype, "hero", void 0);
+    HeroDetailsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.params.forEach(function (params) {
+            var id = +params['id'];
+            _this.heroService.getHero(id)
+                .then(function (hero) { return _this.hero = hero; });
+        });
+    };
+    HeroDetailsComponent.prototype.goBack = function () {
+        window.history.back();
+    };
     HeroDetailsComponent = __decorate([
         core_1.Component({
             selector: 'my-app-hero-details',
-            templateUrl: 'view/app-hero-details.component.html'
+            templateUrl: 'view/app-hero-details.component.html',
+            styleUrls: ['view/app-hero-details.component.css']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [hero_service_1.HeroService, router_1.ActivatedRoute])
     ], HeroDetailsComponent);
     return HeroDetailsComponent;
 }());

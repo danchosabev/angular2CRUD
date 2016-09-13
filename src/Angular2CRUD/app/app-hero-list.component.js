@@ -10,16 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var hero_service_1 = require('./hero.service');
-var router_1 = require('@angular/router');
 var HeroListComponent = (function () {
-    function HeroListComponent(router, heroService) {
-        this.router = router;
+    function HeroListComponent(heroService) {
         this.heroService = heroService;
     }
     HeroListComponent.prototype.getHeroes = function () {
         var _this = this;
-        this.heroService.getHeroes()
-            .then(function (heroes) { return _this.heroes = heroes; });
+        this.heroService.getHeroes().then(function (heroes) { return _this.heroes = heroes; });
     };
     HeroListComponent.prototype.ngOnInit = function () {
         this.getHeroes();
@@ -27,17 +24,15 @@ var HeroListComponent = (function () {
     HeroListComponent.prototype.onSelect = function (hero) {
         this.selectedHero = hero;
     };
-    HeroListComponent.prototype.gotoDetail = function () {
-        this.router.navigate(['/detail', this.selectedHero.id]);
-    };
     HeroListComponent = __decorate([
         core_1.Component({
             selector: 'my-app-hero-list',
             templateUrl: 'view/app-hero-list.component.html',
-            styleUrls: ['view/app-hero-list.component.css']
+            styles: ["\n\t.selected {\n\t  background-color: #CFD8DC !important;\n\t  color: white;\n\t}\n\t.heroes {\n\t  margin: 0 0 2em 0;\n\t  list-style-type: none;\n\t  padding: 0;\n\t  width: 15em;\n\t}\n\t.heroes li {\n\t  cursor: pointer;\n\t  position: relative;\n\t  left: 0;\n\t  background-color: #EEE;\n\t  margin: .5em;\n\t  padding: .3em 0;\n\t  height: 1.6em;\n\t  border-radius: 4px;\n\t}\n\t.heroes li.selected:hover {\n\t  background-color: #BBD8DC !important;\n\t  color: white;\n\t}\n\t.heroes li:hover {\n\t  color: #607D8B;\n\t  background-color: #DDD;\n\t  left: .1em;\n\t}\n\t.heroes .text {\n\t  position: relative;\n\t  top: -3px;\n\t}\n\t.heroes .badge {\n\t  display: inline-block;\n\t  font-size: small;\n\t  color: white;\n\t  padding: 0.8em 0.7em 0 0.7em;\n\t  background-color: #607D8B;\n\t  line-height: 1em;\n\t  position: relative;\n\t  left: -1px;\n\t  top: -4px;\n\t  height: 1.8em;\n\t  margin-right: .8em;\n\t  border-radius: 4px 0 0 4px;\n\t}\n  "]
         }), 
-        __metadata('design:paramtypes', [router_1.Router, hero_service_1.HeroService])
+        __metadata('design:paramtypes', [hero_service_1.HeroService])
     ], HeroListComponent);
     return HeroListComponent;
 }());
 exports.HeroListComponent = HeroListComponent;
+//# sourceMappingURL=app-hero-list.component.js.map
