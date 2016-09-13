@@ -10,19 +10,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
+var forms_1 = require('@angular/forms');
 var app_component_1 = require('./app.component');
 var app_test_component_1 = require('./app-test.component');
+var app_hero_list_component_1 = require('./app-hero-list.component');
+var app_hero_details_component_1 = require('./app-hero-details.component');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
             imports: [
-                platform_browser_1.BrowserModule
+                platform_browser_1.BrowserModule,
+                forms_1.FormsModule
             ],
             declarations: [
                 app_component_1.AppComponent,
-                app_test_component_1.TestComponent
+                app_test_component_1.TestComponent,
+                app_hero_list_component_1.HeroListComponent,
+                app_hero_details_component_1.HeroDetailsComponent
             ],
             bootstrap: [app_component_1.AppComponent]
         }), 
