@@ -16,7 +16,8 @@ var HeroListComponent = (function () {
         this.title = 'Tour of Heroes';
     }
     HeroListComponent.prototype.getHeroes = function () {
-        this.heroes = this.heroService.getHeroes(); //.then(heroes => this.heroes = heroes);
+        var _this = this;
+        this.heroService.getHeroes().then(function (heroes) { return _this.heroes = heroes; });
     };
     HeroListComponent.prototype.ngOnInit = function () {
         this.getHeroes();
