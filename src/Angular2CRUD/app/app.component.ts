@@ -6,5 +6,5 @@
 	styleUrls: ['view/app.component.css']
 })
 export class AppComponent {
-	title = 'Tour of Heroes';
+	title = 'Angular 2 Examples';
 }

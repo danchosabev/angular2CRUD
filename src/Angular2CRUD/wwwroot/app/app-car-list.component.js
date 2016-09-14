@@ -9,18 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
-        this.title = 'Angular 2 Examples';
+var CarListComponent = (function () {
+    function CarListComponent() {
     }
-    AppComponent = __decorate([
+    //constructor(private carService: CarService) { }
+    CarListComponent.prototype.ngOnInit = function () {
+        //this.carService.getCars().then(cars => this.cars = cars);
+        //this.carService.getCarsSmall().then(cars => this.cars = cars);
+    };
+    CarListComponent = __decorate([
         core_1.Component({
-            selector: 'my-app',
-            templateUrl: 'view/app.component.html',
-            styleUrls: ['view/app.component.css']
+            selector: 'my-app-car-list',
+            templateUrl: 'view/app-car-list.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], CarListComponent);
+    return CarListComponent;
 }());
-exports.AppComponent = AppComponent;
+exports.CarListComponent = CarListComponent;
