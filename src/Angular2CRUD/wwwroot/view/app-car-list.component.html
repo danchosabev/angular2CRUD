@@ -1,8 +1,122 @@
 ﻿<h2>Cars List</h2>
 
-<!--<p-dataTable [value]="cars">
-	<p-column field="vin" header="Vin"></p-column>
-	<p-column field="year" header="Year"></p-column>
-	<p-column field="brand" header="Brand"></p-column>
-	<p-column field="color" header="Color"></p-column>
-</p-dataTable>-->
+<div style="margin-bottom:20px;">
+	<button pButton type="button" label="New" icon="fa-plus" (click)="addeditCar()"></button>
+</div>
+
+<p-dataList [value]="cars" [paginator]="true" [rows]="5">
+	<header>
+		List of Cars
+	</header>
+	<template let-car>
+		<div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:10px;border-bottom:1px solid #D5D5D5;">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-10">
+					<div class="ui-grid ui-grid-responsive ui-fluid">
+						<a class="ui-grid-row" (click)="selectCar(car)" style="cursor:pointer">
+							Vin: {{car.vin}}, Year: {{car.year}}, Brand: {{car.brand}}, Color: {{car.color}}
+						</a>
+					</div>
+				</div>
+				<div class="ui-grid-col-2" style="text-align:center">
+					<a class="fa fa-search" (click)="selectCar(car)" style="cursor:pointer;float:left;" pTooltip="View" tooltipPosition="top"></a>
+					<a class="fa fa-pencil" (click)="addeditCar(car)" style="cursor:pointer;float:left;margin-left:10px;" pTooltip="Edit" tooltipPosition="top"></a>
+					<a class="fa fa-trash" (click)="deleteCar(car)" style="cursor:pointer;float:left;margin-left:10px;" pTooltip="Delete" tooltipPosition="top"></a>
+				</div>
+			</div>
+		</div>
+	</template>
+</p-dataList>
+
+<p-dialog header="Car Details" [(visible)]="displayViewDialog" [responsive]="true" showEffect="fade" [modal]="true" width="400" (onAfterHide)="onDialogHide()">
+	<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedCar" style="font-size:16px;padding:20px">
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Vin: </div>
+			<div class="ui-grid-col-8">{{selectedCar.vin}}</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Year: </div>
+			<div class="ui-grid-col-8">{{selectedCar.year}}</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Brand: </div>
+			<div class="ui-grid-col-8">{{selectedCar.brand}}</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Color: </div>
+			<div class="ui-grid-col-8">{{selectedCar.color}}</div>
+		</div>
+	</div>
+	<footer>
+		<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+			<button type="button" pButton icon="fa-close" (click)="displayViewDialog=false" label="Close"></button>			
+		</div>
+	</footer>
+</p-dialog>
+
+<p-dialog header="{{actionName}} Car" [(visible)]="displayAddEditDialog" [responsive]="true" showEffect="fade" [modal]="true" width="400" (onAfterHide)="onDialogHide()">
+	<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="editedCar" style="font-size:16px;padding:20px">
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Vin: </div>
+			<div class="ui-grid-col-8">
+				<input type="text" pInputText [(ngModel)]="editedCar.vin" />
+			</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Year: </div>
+			<div class="ui-grid-col-8">
+				<input type="text" pInputText [(ngModel)]="editedCar.year" />
+			</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Brand: </div>
+			<div class="ui-grid-col-8">
+				<input type="text" pInputText [(ngModel)]="editedCar.brand" />
+			</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Color: </div>
+			<div class="ui-grid-col-8">
+				<input type="text" pInputText [(ngModel)]="editedCar.color" />				
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+			<button type="button" pButton icon="fa-close" (click)="displayAddEditDialog=false" label="Cancel"></button>
+			<button type="button" pButton icon="fa-check" (click)="displayAddEditDialog=false" label="Save"></button>
+		</div>
+	</footer>
+</p-dialog>
+
+<p-dialog header="Confirmation" [(visible)]="displayDeleteConfirmation" modal="modal" showEffect="fade" width="400">	
+	<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedCar" style="font-size:16px;padding:20px">
+		<div class="ui-grid-row" style="margin-bottom:10px">
+			<div class="ui-grid-col-12">
+				Are you sure you want to delete selected item?
+			</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Vin: </div>
+			<div class="ui-grid-col-8">{{selectedCar.vin}}</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Year: </div>
+			<div class="ui-grid-col-8">{{selectedCar.year}}</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Brand: </div>
+			<div class="ui-grid-col-8">{{selectedCar.brand}}</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-4">Color: </div>
+			<div class="ui-grid-col-8">{{selectedCar.color}}</div>
+		</div>
+	</div>
+	<footer>
+		<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+			<button type="button" pButton icon="fa-close" (click)="displayDeleteConfirmation=false" label="No"></button>
+			<button type="button" pButton icon="fa-check" (click)="displayDeleteConfirmation=false" label="Yes"></button>
+		</div>
+	</footer>
+</p-dialog>
