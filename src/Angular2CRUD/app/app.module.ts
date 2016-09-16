@@ -4,19 +4,12 @@ import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 
 // PrimeNG
-import {InputTextModule} from 'primeng/primeng';
-import {DataTableModule, SharedModule} from 'primeng/primeng';
-import {DataListModule} from 'primeng/primeng';
-import {PaginatorModule} from 'primeng/primeng';
-import {DataGridModule} from 'primeng/primeng';
-import {PanelModule} from 'primeng/primeng';
-import {DialogModule} from 'primeng/primeng';
-import {TooltipModule} from 'primeng/primeng';
-import {ToolbarModule} from 'primeng/primeng';
-import {ButtonModule} from 'primeng/primeng';
+import {InputTextModule, DataTableModule, SharedModule, DataListModule, PaginatorModule, DataGridModule} from 'primeng/primeng';
+import {PanelModule, DialogModule, TooltipModule, ToolbarModule, ButtonModule} from 'primeng/primeng';
 
 import { AppComponent }   from './app.component';
 import { HomeComponent } from './app-home.component';
+import { HelperService } from './helper.service';
 
 // Test
 import { TestComponent } from './app-test.component';
@@ -61,6 +54,7 @@ import { routing } from './app.routing';
 		CarListComponent		
 	],
 	providers: [
+		HelperService,
 		HeroService,
 		CarService
 	],

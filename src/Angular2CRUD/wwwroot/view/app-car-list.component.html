@@ -4,7 +4,7 @@
 	<button pButton type="button" label="New" icon="fa-plus" (click)="addeditCar()"></button>
 </div>
 
-<p-dataList [value]="cars" [paginator]="true" [rows]="5">
+<p-dataList [value]="cars" [paginator]="true" [rows]="10">
 	<header>
 		List of Cars
 	</header>
@@ -14,7 +14,10 @@
 				<div class="ui-grid-col-10">
 					<div class="ui-grid ui-grid-responsive ui-fluid">
 						<a class="ui-grid-row" (click)="selectCar(car)" style="cursor:pointer">
-							Vin: {{car.vin}}, Year: {{car.year}}, Brand: {{car.brand}}, Color: {{car.color}}
+							Vin: <span style="color:#8f8f8f">{{car.vin}}</span>, 
+							Year: <span style="color:#8f8f8f">{{car.year}}</span>, 
+							Brand: <span style="color:#8f8f8f">{{car.brand}}</span>, 
+							Color: <span style="color:#8f8f8f">{{car.color}}</span> 
 						</a>
 					</div>
 				</div>
@@ -55,44 +58,64 @@
 </p-dialog>
 
 <p-dialog header="{{actionName}} Car" [(visible)]="displayAddEditDialog" [responsive]="true" showEffect="fade" [modal]="true" width="400" (onAfterHide)="onDialogHide()">
-	<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="editedCar" style="font-size:16px;padding:20px">
-		<div class="ui-grid-row">
-			<div class="ui-grid-col-4">Vin: </div>
-			<div class="ui-grid-col-8">
-				<input type="text" pInputText [(ngModel)]="editedCar.vin" />
+	<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="editedCar" style="padding:20px">
+		<form *ngIf="displayAddEditDialog" (ngSubmit)="onSave(f.value, f.valid)" #f="ngForm">
+			<input type="hidden" id="vin" [(ngModel)]="editedCar.id" name="id"/>
+			<div class="ui-grid-row" style="margin-bottom:10px">
+				<div class="ui-grid-col-2">Vin*:</div>
+				<div class="ui-grid-col-10">
+					<input type="text" pInputText id="vin" required [(ngModel)]="editedCar.vin" name="vin" #vin="ngModel" />
+					<div class="ui-message ui-messages-error ui-corner-all" [hidden]="vin.valid || vin.pristine">
+						<i class="fa fa-close"></i>
+						Vin is required
+					</div>
+				</div>				
 			</div>
-		</div>
-		<div class="ui-grid-row">
-			<div class="ui-grid-col-4">Year: </div>
-			<div class="ui-grid-col-8">
-				<input type="text" pInputText [(ngModel)]="editedCar.year" />
+			<div class="ui-grid-row" style="margin-bottom:10px">
+				<div class="ui-grid-col-2">Year*:</div>
+				<div class="ui-grid-col-10">
+					<input type="text" pInputText id="year" required [(ngModel)]="editedCar.year" name="year" #year="ngModel" />
+					<div class="ui-message ui-messages-error ui-corner-all" [hidden]="year.valid || year.pristine">
+						<i class="fa fa-close"></i>
+						Year is required
+					</div>
+				</div>				
 			</div>
-		</div>
-		<div class="ui-grid-row">
-			<div class="ui-grid-col-4">Brand: </div>
-			<div class="ui-grid-col-8">
-				<input type="text" pInputText [(ngModel)]="editedCar.brand" />
+			<div class="ui-grid-row" style="margin-bottom:10px">
+				<div class="ui-grid-col-2">Brand*:</div>
+				<div class="ui-grid-col-10">
+					<input type="text" pInputText id="brand" required [(ngModel)]="editedCar.brand" name="brand" #brand="ngModel" />
+					<div class="ui-message ui-messages-error ui-corner-all" [hidden]="brand.valid || brand.pristine">
+						<i class="fa fa-close"></i>
+						Brand is required
+					</div>
+				</div>				
 			</div>
-		</div>
-		<div class="ui-grid-row">
-			<div class="ui-grid-col-4">Color: </div>
-			<div class="ui-grid-col-8">
-				<input type="text" pInputText [(ngModel)]="editedCar.color" />				
-			</div>
-		</div>
+			<div class="ui-grid-row" style="margin-bottom:10px">
+				<div class="ui-grid-col-2">Color*:</div>
+				<div class="ui-grid-col-10">
+					<input type="text" pInputText id="color" required [(ngModel)]="editedCar.color" name="color" #color="ngModel" />
+					<div class="ui-message ui-messages-error ui-corner-all" [hidden]="color.valid || color.pristine">
+						<i class="fa fa-close"></i>
+						Color is required
+					</div>
+				</div>				
+			</div>			
+			<footer>
+				<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+					<button type="button" pButton icon="fa-close" (click)="displayAddEditDialog=false" label="Cancel"></button>
+					<button type="submit" pButton icon="fa-check" [disabled]="!f.form.valid" label="Save"></button>
+				</div>
+			</footer>
+		</form>
 	</div>
-	<footer>
-		<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-			<button type="button" pButton icon="fa-close" (click)="displayAddEditDialog=false" label="Cancel"></button>
-			<button type="button" pButton icon="fa-check" (click)="displayAddEditDialog=false" label="Save"></button>
-		</div>
-	</footer>
 </p-dialog>
 
 <p-dialog header="Confirmation" [(visible)]="displayDeleteConfirmation" modal="modal" showEffect="fade" width="400">	
 	<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedCar" style="font-size:16px;padding:20px">
-		<div class="ui-grid-row" style="margin-bottom:10px">
-			<div class="ui-grid-col-12">
+		<div class="ui-grid-col-12" style="margin-bottom:10px">
+			<div class="ui-message ui-messages-info ui-corner-all">
+				<i class="fa fa-question-circle "></i>
 				Are you sure you want to delete selected item?
 			</div>
 		</div>
@@ -116,7 +139,7 @@
 	<footer>
 		<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
 			<button type="button" pButton icon="fa-close" (click)="displayDeleteConfirmation=false" label="No"></button>
-			<button type="button" pButton icon="fa-check" (click)="displayDeleteConfirmation=false" label="Yes"></button>
+			<button type="button" pButton icon="fa-check" (click)="onDelete(selectedCar)" label="Yes"></button>
 		</div>
 	</footer>
 </p-dialog>

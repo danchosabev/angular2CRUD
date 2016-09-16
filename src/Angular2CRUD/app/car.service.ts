@@ -9,14 +9,57 @@ export class CarService {
 
 	constructor(private http: Http) { }
 
+	lsName: string = 'appA2Cars';
+	listCars: Car[];	
+
 	getCars(): Promise<Car[]> {
-		return Promise.resolve(CARS);
+		if (localStorage.getItem(this.lsName)) {
+			this.listCars = JSON.parse(localStorage.getItem(this.lsName)).cars;
+		} else {
+			this.listCars = [];
+		}
+
+		return Promise.resolve(this.listCars);
 	};
 
-	//getCarsSmall() {
-	//	return this.http.get('/showcase/resources/data/cars-small.json')
-	//		.toPromise()
-	//		.then(res => <Car[]>res.json().data)
-	//		.then(data => { return data; });
-	//}
+	getCar(id: string): Promise<Car> {
+		return this.getCars()
+			.then(cars => cars.find(car => car.id === id));
+	}
+
+	addCar(car: Car): void {
+		this.listCars.push(car);
+		this.saveDataToLocalStorage();
+	}	
+
+	editCar(car: Car): void {
+		for (var i = 0; i < this.listCars.length; i++) {
+			if (this.listCars[i].id === car.id) {
+				this.listCars[i] = {
+					id: car.id,
+					vin: car.vin,
+					year: car.year,
+					brand: car.brand,
+					color: car.color
+				}
+			}
+		}
+		this.saveDataToLocalStorage();
+	}
+
+	deleteCar(id: string): void {
+		let index: number;
+		for (var i = 0; i < this.listCars.length; i++) {
+			if (this.listCars[i].id === id) {
+				index = i;
+			}
+		}
+		this.listCars.slice(index, 1);
+		this.saveDataToLocalStorage();
+	}
+
+	saveDataToLocalStorage(): void {
+		let objCars = { cars: this.listCars };
+		localStorage.setItem(this.lsName, JSON.stringify(objCars));
+	} 
 }

@@ -10,15 +10,57 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var car_mock_1 = require('./car-mock');
 var CarService = (function () {
     function CarService(http) {
         this.http = http;
+        this.lsName = 'appA2Cars';
     }
     CarService.prototype.getCars = function () {
-        return Promise.resolve(car_mock_1.CARS);
+        if (localStorage.getItem(this.lsName)) {
+            this.listCars = JSON.parse(localStorage.getItem(this.lsName)).cars;
+        }
+        else {
+            this.listCars = [];
+        }
+        return Promise.resolve(this.listCars);
     };
     ;
+    CarService.prototype.getCar = function (id) {
+        return this.getCars()
+            .then(function (cars) { return cars.find(function (car) { return car.id === id; }); });
+    };
+    CarService.prototype.addCar = function (car) {
+        this.listCars.push(car);
+        this.saveDataToLocalStorage();
+    };
+    CarService.prototype.editCar = function (car) {
+        for (var i = 0; i < this.listCars.length; i++) {
+            if (this.listCars[i].id === car.id) {
+                this.listCars[i] = {
+                    id: car.id,
+                    vin: car.vin,
+                    year: car.year,
+                    brand: car.brand,
+                    color: car.color
+                };
+            }
+        }
+        this.saveDataToLocalStorage();
+    };
+    CarService.prototype.deleteCar = function (id) {
+        var index;
+        for (var i = 0; i < this.listCars.length; i++) {
+            if (this.listCars[i].id === id) {
+                index = i;
+            }
+        }
+        this.listCars.slice(index, 1);
+        this.saveDataToLocalStorage();
+    };
+    CarService.prototype.saveDataToLocalStorage = function () {
+        var objCars = { cars: this.listCars };
+        localStorage.setItem(this.lsName, JSON.stringify(objCars));
+    };
     CarService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

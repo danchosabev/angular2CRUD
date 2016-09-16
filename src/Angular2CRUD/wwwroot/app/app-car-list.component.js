@@ -10,9 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var car_service_1 = require('./car.service');
+var helper_service_1 = require('./helper.service');
 var CarListComponent = (function () {
-    function CarListComponent(carService) {
+    function CarListComponent(helper, carService) {
+        this.helper = helper;
         this.carService = carService;
+        this.submitted = false;
     }
     CarListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -27,6 +30,7 @@ var CarListComponent = (function () {
         if (car) {
             this.actionName = "Edit";
             this.editedCar = {
+                id: car.id,
                 vin: car.vin,
                 year: car.year,
                 brand: car.brand,
@@ -36,6 +40,7 @@ var CarListComponent = (function () {
         else {
             this.actionName = "Add";
             this.editedCar = {
+                id: "",
                 vin: "",
                 year: "",
                 brand: "",
@@ -44,9 +49,34 @@ var CarListComponent = (function () {
         }
         this.displayAddEditDialog = true;
     };
+    CarListComponent.prototype.onSave = function (car, isValid) {
+        if (isValid) {
+            console.log(car);
+            this.submitted = true;
+            if (car.id === '') {
+                console.log("Add");
+                this.carService.addCar({
+                    id: this.helper.newGuid(),
+                    vin: car.vin,
+                    year: car.year,
+                    brand: car.brand,
+                    color: car.color
+                });
+            }
+            else {
+                console.log("Update");
+                this.carService.editCar(car);
+            }
+            this.displayAddEditDialog = false;
+        }
+    };
     CarListComponent.prototype.deleteCar = function (car) {
         this.selectedCar = car;
         this.displayDeleteConfirmation = true;
+    };
+    CarListComponent.prototype.onDelete = function (car) {
+        this.carService.deleteCar(car.id);
+        this.displayDeleteConfirmation = false;
     };
     CarListComponent.prototype.onDialogHide = function () {
         this.selectedCar = null;
@@ -57,7 +87,7 @@ var CarListComponent = (function () {
             selector: 'my-app-car-list',
             templateUrl: 'view/app-car-list.component.html'
         }), 
-        __metadata('design:paramtypes', [car_service_1.CarService])
+        __metadata('design:paramtypes', [helper_service_1.HelperService, car_service_1.CarService])
     ], CarListComponent);
     return CarListComponent;
 }());

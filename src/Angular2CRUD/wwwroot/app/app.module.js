@@ -15,16 +15,9 @@ var http_1 = require('@angular/http');
 // PrimeNG
 var primeng_1 = require('primeng/primeng');
 var primeng_2 = require('primeng/primeng');
-var primeng_3 = require('primeng/primeng');
-var primeng_4 = require('primeng/primeng');
-var primeng_5 = require('primeng/primeng');
-var primeng_6 = require('primeng/primeng');
-var primeng_7 = require('primeng/primeng');
-var primeng_8 = require('primeng/primeng');
-var primeng_9 = require('primeng/primeng');
-var primeng_10 = require('primeng/primeng');
 var app_component_1 = require('./app.component');
 var app_home_component_1 = require('./app-home.component');
+var helper_service_1 = require('./helper.service');
 // Test
 var app_test_component_1 = require('./app-test.component');
 // Heroes
@@ -44,16 +37,16 @@ var AppModule = (function () {
             imports: [
                 platform_browser_1.BrowserModule,
                 primeng_1.InputTextModule,
-                primeng_2.DataTableModule,
-                primeng_3.DataListModule,
-                primeng_5.DataGridModule,
-                primeng_6.PanelModule,
-                primeng_8.TooltipModule,
-                primeng_2.SharedModule,
-                primeng_4.PaginatorModule,
-                primeng_7.DialogModule,
-                primeng_9.ToolbarModule,
-                primeng_10.ButtonModule,
+                primeng_1.DataTableModule,
+                primeng_1.DataListModule,
+                primeng_1.DataGridModule,
+                primeng_2.PanelModule,
+                primeng_2.TooltipModule,
+                primeng_1.SharedModule,
+                primeng_1.PaginatorModule,
+                primeng_2.DialogModule,
+                primeng_2.ToolbarModule,
+                primeng_2.ButtonModule,
                 forms_1.FormsModule,
                 http_1.HttpModule,
                 app_routing_1.routing
@@ -68,6 +61,7 @@ var AppModule = (function () {
                 app_car_list_component_1.CarListComponent
             ],
             providers: [
+                helper_service_1.HelperService,
                 hero_service_1.HeroService,
                 car_service_1.CarService
             ],

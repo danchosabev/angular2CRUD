@@ -2,6 +2,7 @@
 
 import { Car } from './car';
 import { CarService } from './car.service';
+import { HelperService } from './helper.service';
 
 import { Router } from '@angular/router';
 
@@ -17,12 +18,13 @@ export class CarListComponent implements OnInit {
 
 	selectedCar: Car;
 	editedCar: Car;
+	submitted = false;
 
 	displayViewDialog: boolean;
 	displayAddEditDialog: boolean;
 	displayDeleteConfirmation: boolean;
 
-	constructor(private carService: CarService) { }
+	constructor(private helper: HelperService, private carService: CarService) { }
 
 	ngOnInit() {
 		this.carService.getCars().then(cars => this.cars = cars);
@@ -38,6 +40,7 @@ export class CarListComponent implements OnInit {
 		if (car) {
 			this.actionName = "Edit";
 			this.editedCar = {
+				id: car.id,
 				vin: car.vin,
 				year: car.year,
 				brand: car.brand,
@@ -47,6 +50,7 @@ export class CarListComponent implements OnInit {
 		else {
 			this.actionName = "Add";
 			this.editedCar = {
+				id: "",
 				vin: "",
 				year: "",
 				brand: "",
@@ -56,9 +60,37 @@ export class CarListComponent implements OnInit {
 		this.displayAddEditDialog = true;
 	}
 
+	onSave(car: Car, isValid: boolean) {
+		if (isValid) {
+			console.log(car);
+			this.submitted = true;
+
+			if (car.id === '') {
+				console.log("Add");
+				this.carService.addCar({
+					id: this.helper.newGuid(),
+					vin: car.vin,
+					year: car.year,
+					brand: car.brand,
+					color: car.color
+				});
+			} else {
+				console.log("Update");
+				this.carService.editCar(car);
+			}
+
+			this.displayAddEditDialog = false;
+		}		
+	}
+
 	deleteCar(car: Car) {
 		this.selectedCar = car;
 		this.displayDeleteConfirmation = true;
+	}
+
+	onDelete(car: Car) {
+		this.carService.deleteCar(car.id);
+		this.displayDeleteConfirmation = false;
 	}
 
 	onDialogHide() {
