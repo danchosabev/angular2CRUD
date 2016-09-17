@@ -1,40 +1,34 @@
-﻿<h2>Cars List</h2>
+﻿<h2>Cars</h2>
 
 <div style="margin-bottom:20px;">
 	<button pButton type="button" label="New" icon="fa-plus" (click)="addeditCar()"></button>
 </div>
 
-<p-dataList [value]="cars" [paginator]="true" [rows]="10">
-	<header>
-		List of Cars
-	</header>
-	<template let-car>
-		<div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:10px;border-bottom:1px solid #D5D5D5;">
-			<div class="ui-grid-row">
-				<div class="ui-grid-col-10">
-					<div class="ui-grid ui-grid-responsive ui-fluid">
-						<a class="ui-grid-row" (click)="selectCar(car)" style="cursor:pointer">
-							Vin: <span style="color:#8f8f8f">{{car.vin}}</span>, 
-							Year: <span style="color:#8f8f8f">{{car.year}}</span>, 
-							Brand: <span style="color:#8f8f8f">{{car.brand}}</span>, 
-							Color: <span style="color:#8f8f8f">{{car.color}}</span> 
-						</a>
-					</div>
-				</div>
-				<div class="ui-grid-col-2" style="text-align:center">
-					<a class="fa fa-search" (click)="selectCar(car)" style="cursor:pointer;float:left;" pTooltip="View" tooltipPosition="top"></a>
-					<a class="fa fa-pencil" (click)="addeditCar(car)" style="cursor:pointer;float:left;margin-left:10px;" pTooltip="Edit" tooltipPosition="top"></a>
-					<a class="fa fa-trash" (click)="deleteCar(car)" style="cursor:pointer;float:left;margin-left:10px;" pTooltip="Delete" tooltipPosition="top"></a>
-				</div>
-			</div>
-		</div>
-	</template>
-</p-dataList>
+<p-dataTable [value]="cars" [paginator]="true" [rows]="10">
+	<p-column field="vin" header="VIN"></p-column>
+	<p-column field="year" header="Year"></p-column>
+	<p-column field="brand" header="Brand"></p-column>
+	<p-column field="color" header="Color">
+		<template let-col let-car="rowData" pTemplate type="body">
+			<span [style.color]="car[col.field]">
+				<i class="fa fa-square" aria-hidden="true"></i>
+			</span>
+			{{car[col.field]}}
+		</template>
+	</p-column>
+	<p-column header="Actions">		
+		<template let-car="rowData" pTemplate type="body">
+			<a class="fa fa-search" (click)="selectCar(car)" style="cursor:pointer;float:left;" pTooltip="View" tooltipPosition="top"></a>
+			<a class="fa fa-pencil" (click)="addeditCar(car)" style="cursor:pointer;float:left;margin-left:10px;" pTooltip="Edit" tooltipPosition="top"></a>
+			<a class="fa fa-trash" (click)="deleteCar(car)" style="cursor:pointer;float:left;margin-left:10px;" pTooltip="Delete" tooltipPosition="top"></a>			
+		</template>
+	</p-column>
+</p-dataTable>
 
 <p-dialog header="Car Details" [(visible)]="displayViewDialog" [responsive]="true" showEffect="fade" [modal]="true" width="400" (onAfterHide)="onDialogHide()">
 	<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedCar" style="font-size:16px;padding:20px">
 		<div class="ui-grid-row">
-			<div class="ui-grid-col-4">Vin: </div>
+			<div class="ui-grid-col-4">VIN: </div>
 			<div class="ui-grid-col-8">{{selectedCar.vin}}</div>
 		</div>
 		<div class="ui-grid-row">
@@ -62,27 +56,23 @@
 		<form *ngIf="displayAddEditDialog" (ngSubmit)="onSave(f.value, f.valid)" #f="ngForm">
 			<input type="hidden" id="vin" [(ngModel)]="editedCar.id" name="id"/>
 			<div class="ui-grid-row" style="margin-bottom:10px">
-				<div class="ui-grid-col-2">Vin*:</div>
+				<div class="ui-grid-col-2">VIN*</div>
 				<div class="ui-grid-col-10">
 					<input type="text" pInputText id="vin" required [(ngModel)]="editedCar.vin" name="vin" #vin="ngModel" />
 					<div class="ui-message ui-messages-error ui-corner-all" [hidden]="vin.valid || vin.pristine">
 						<i class="fa fa-close"></i>
-						Vin is required
+						VIN is required
 					</div>
 				</div>				
 			</div>
 			<div class="ui-grid-row" style="margin-bottom:10px">
-				<div class="ui-grid-col-2">Year*:</div>
+				<div class="ui-grid-col-2">Year*</div>
 				<div class="ui-grid-col-10">
-					<input type="text" pInputText id="year" required [(ngModel)]="editedCar.year" name="year" #year="ngModel" />
-					<div class="ui-message ui-messages-error ui-corner-all" [hidden]="year.valid || year.pristine">
-						<i class="fa fa-close"></i>
-						Year is required
-					</div>
+					<p-dropdown [options]="years" [(ngModel)]="editedCar.year" name="year" required></p-dropdown>
 				</div>				
 			</div>
 			<div class="ui-grid-row" style="margin-bottom:10px">
-				<div class="ui-grid-col-2">Brand*:</div>
+				<div class="ui-grid-col-2">Brand*</div>
 				<div class="ui-grid-col-10">
 					<input type="text" pInputText id="brand" required [(ngModel)]="editedCar.brand" name="brand" #brand="ngModel" />
 					<div class="ui-message ui-messages-error ui-corner-all" [hidden]="brand.valid || brand.pristine">
@@ -92,7 +82,7 @@
 				</div>				
 			</div>
 			<div class="ui-grid-row" style="margin-bottom:10px">
-				<div class="ui-grid-col-2">Color*:</div>
+				<div class="ui-grid-col-2">Color*</div>
 				<div class="ui-grid-col-10">
 					<input type="text" pInputText id="color" required [(ngModel)]="editedCar.color" name="color" #color="ngModel" />
 					<div class="ui-message ui-messages-error ui-corner-all" [hidden]="color.valid || color.pristine">
@@ -120,7 +110,7 @@
 			</div>
 		</div>
 		<div class="ui-grid-row">
-			<div class="ui-grid-col-4">Vin: </div>
+			<div class="ui-grid-col-4">VIN: </div>
 			<div class="ui-grid-col-8">{{selectedCar.vin}}</div>
 		</div>
 		<div class="ui-grid-row">

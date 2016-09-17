@@ -3,8 +3,7 @@
 import { Car } from './car';
 import { CarService } from './car.service';
 import { HelperService } from './helper.service';
-
-import { Router } from '@angular/router';
+import { SelectItem } from 'primeng/primeng';
 
 @Component({
 	selector: 'my-app-car-list',
@@ -15,6 +14,7 @@ export class CarListComponent implements OnInit {
 	cars: Car[];
 	dateValue: string;
 	actionName: string;
+	years: SelectItem[];
 
 	selectedCar: Car;
 	editedCar: Car;
@@ -24,10 +24,11 @@ export class CarListComponent implements OnInit {
 	displayAddEditDialog: boolean;
 	displayDeleteConfirmation: boolean;
 
-	constructor(private helper: HelperService, private carService: CarService) { }
+	constructor(private helperService: HelperService, private carService: CarService) { }
 
 	ngOnInit() {
-		this.carService.getCars().then(cars => this.cars = cars);		
+		this.carService.getCars().then(cars => this.cars = cars);
+		this.years = this.helperService.getYears(true);
 	}
 
 	selectCar(car: Car) {
@@ -36,6 +37,7 @@ export class CarListComponent implements OnInit {
 	}
 
 	addeditCar(car: Car) {
+
 		if (car) {
 			this.actionName = "Edit";
 			this.editedCar = {
@@ -65,7 +67,7 @@ export class CarListComponent implements OnInit {
 
 			if (car.id === '') {				
 				this.carService.addCar({
-					id: this.helper.newGuid(),
+					id: this.helperService.newGuid(),
 					vin: car.vin,
 					year: car.year,
 					brand: car.brand,

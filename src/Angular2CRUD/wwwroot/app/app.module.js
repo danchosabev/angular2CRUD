@@ -28,7 +28,7 @@ var hero_service_1 = require('./hero.service');
 // Cars
 var app_car_list_component_1 = require('./app-car-list.component');
 var car_service_1 = require('./car.service');
-var app_routing_1 = require('./app.routing');
+//import { routing } from './app.routing';
 var AppModule = (function () {
     function AppModule() {
     }
@@ -47,9 +47,9 @@ var AppModule = (function () {
                 primeng_2.DialogModule,
                 primeng_2.ToolbarModule,
                 primeng_2.ButtonModule,
+                primeng_2.DropdownModule,
                 forms_1.FormsModule,
                 http_1.HttpModule,
-                app_routing_1.routing
             ],
             declarations: [
                 app_component_1.AppComponent,

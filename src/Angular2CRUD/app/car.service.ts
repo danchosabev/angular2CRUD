@@ -34,7 +34,7 @@ export class CarService {
 
 	editCar(car: Car): void {
 		let index = this.getIndexById(car.id);
-		if (index) {
+		if (index != null) {
 			this.listCars[index] = {
 				id: car.id,
 				vin: car.vin,
@@ -48,7 +48,7 @@ export class CarService {
 
 	deleteCar(id: string): void {
 		let index = this.getIndexById(id);
-		if (index) {
+		if (index != null) {
 			this.listCars.splice(index, 1);
 			this.saveDataToLocalStorage();
 		}

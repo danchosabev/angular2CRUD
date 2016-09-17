@@ -18,6 +18,16 @@ var HelperService = (function () {
         }
         return "" + s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4();
     };
+    HelperService.prototype.getYears = function (isSelect) {
+        var currYear = new Date().getFullYear(), years = [];
+        if (isSelect) {
+            years.push({ label: 'Select...', value: null });
+        }
+        for (var i = currYear, count = currYear - 100; i > count; i--) {
+            years.push({ label: i.toString(), value: i });
+        }
+        return years;
+    };
     HelperService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])

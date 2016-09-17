@@ -12,14 +12,15 @@ var core_1 = require('@angular/core');
 var car_service_1 = require('./car.service');
 var helper_service_1 = require('./helper.service');
 var CarListComponent = (function () {
-    function CarListComponent(helper, carService) {
-        this.helper = helper;
+    function CarListComponent(helperService, carService) {
+        this.helperService = helperService;
         this.carService = carService;
         this.submitted = false;
     }
     CarListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.carService.getCars().then(function (cars) { return _this.cars = cars; });
+        this.years = this.helperService.getYears(true);
     };
     CarListComponent.prototype.selectCar = function (car) {
         this.selectedCar = car;
@@ -53,7 +54,7 @@ var CarListComponent = (function () {
             this.submitted = true;
             if (car.id === '') {
                 this.carService.addCar({
-                    id: this.helper.newGuid(),
+                    id: this.helperService.newGuid(),
                     vin: car.vin,
                     year: car.year,
                     brand: car.brand,

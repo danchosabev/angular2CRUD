@@ -35,7 +35,7 @@ var CarService = (function () {
     };
     CarService.prototype.editCar = function (car) {
         var index = this.getIndexById(car.id);
-        if (index) {
+        if (index != null) {
             this.listCars[index] = {
                 id: car.id,
                 vin: car.vin,
@@ -48,7 +48,7 @@ var CarService = (function () {
     };
     CarService.prototype.deleteCar = function (id) {
         var index = this.getIndexById(id);
-        if (index) {
+        if (index != null) {
             this.listCars.splice(index, 1);
             this.saveDataToLocalStorage();
         }
