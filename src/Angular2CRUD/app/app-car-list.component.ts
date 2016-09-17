@@ -27,8 +27,7 @@ export class CarListComponent implements OnInit {
 	constructor(private helper: HelperService, private carService: CarService) { }
 
 	ngOnInit() {
-		this.carService.getCars().then(cars => this.cars = cars);
-		//this.carService.getCarsSmall().then(cars => this.cars = cars);
+		this.carService.getCars().then(cars => this.cars = cars);		
 	}
 
 	selectCar(car: Car) {
@@ -61,12 +60,10 @@ export class CarListComponent implements OnInit {
 	}
 
 	onSave(car: Car, isValid: boolean) {
-		if (isValid) {
-			console.log(car);
+		if (isValid) {			
 			this.submitted = true;
 
-			if (car.id === '') {
-				console.log("Add");
+			if (car.id === '') {				
 				this.carService.addCar({
 					id: this.helper.newGuid(),
 					vin: car.vin,
@@ -74,8 +71,7 @@ export class CarListComponent implements OnInit {
 					brand: car.brand,
 					color: car.color
 				});
-			} else {
-				console.log("Update");
+			} else {				
 				this.carService.editCar(car);
 			}
 
@@ -83,12 +79,12 @@ export class CarListComponent implements OnInit {
 		}		
 	}
 
-	deleteCar(car: Car) {
+	deleteCar(car: Car) {		
 		this.selectedCar = car;
 		this.displayDeleteConfirmation = true;
 	}
 
-	onDelete(car: Car) {
+	onDelete(car: Car) {		
 		this.carService.deleteCar(car.id);
 		this.displayDeleteConfirmation = false;
 	}

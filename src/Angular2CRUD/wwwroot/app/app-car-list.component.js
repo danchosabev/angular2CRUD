@@ -20,7 +20,6 @@ var CarListComponent = (function () {
     CarListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.carService.getCars().then(function (cars) { return _this.cars = cars; });
-        //this.carService.getCarsSmall().then(cars => this.cars = cars);
     };
     CarListComponent.prototype.selectCar = function (car) {
         this.selectedCar = car;
@@ -51,10 +50,8 @@ var CarListComponent = (function () {
     };
     CarListComponent.prototype.onSave = function (car, isValid) {
         if (isValid) {
-            console.log(car);
             this.submitted = true;
             if (car.id === '') {
-                console.log("Add");
                 this.carService.addCar({
                     id: this.helper.newGuid(),
                     vin: car.vin,
@@ -64,7 +61,6 @@ var CarListComponent = (function () {
                 });
             }
             else {
-                console.log("Update");
                 this.carService.editCar(car);
             }
             this.displayAddEditDialog = false;

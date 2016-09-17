@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+﻿import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 
 import {Car} from './car';
@@ -33,29 +33,33 @@ export class CarService {
 	}	
 
 	editCar(car: Car): void {
-		for (var i = 0; i < this.listCars.length; i++) {
-			if (this.listCars[i].id === car.id) {
-				this.listCars[i] = {
-					id: car.id,
-					vin: car.vin,
-					year: car.year,
-					brand: car.brand,
-					color: car.color
-				}
+		let index = this.getIndexById(car.id);
+		if (index) {
+			this.listCars[index] = {
+				id: car.id,
+				vin: car.vin,
+				year: car.year,
+				brand: car.brand,
+				color: car.color
 			}
-		}
+		}		
 		this.saveDataToLocalStorage();
 	}
 
 	deleteCar(id: string): void {
-		let index: number;
+		let index = this.getIndexById(id);
+		if (index) {
+			this.listCars.splice(index, 1);
+			this.saveDataToLocalStorage();
+		}
+	}
+
+	getIndexById(id: string): number {
 		for (var i = 0; i < this.listCars.length; i++) {
 			if (this.listCars[i].id === id) {
-				index = i;
+				return i;
 			}
 		}
-		this.listCars.slice(index, 1);
-		this.saveDataToLocalStorage();
 	}
 
 	saveDataToLocalStorage(): void {

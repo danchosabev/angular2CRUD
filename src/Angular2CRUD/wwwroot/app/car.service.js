@@ -34,28 +34,31 @@ var CarService = (function () {
         this.saveDataToLocalStorage();
     };
     CarService.prototype.editCar = function (car) {
-        for (var i = 0; i < this.listCars.length; i++) {
-            if (this.listCars[i].id === car.id) {
-                this.listCars[i] = {
-                    id: car.id,
-                    vin: car.vin,
-                    year: car.year,
-                    brand: car.brand,
-                    color: car.color
-                };
-            }
+        var index = this.getIndexById(car.id);
+        if (index) {
+            this.listCars[index] = {
+                id: car.id,
+                vin: car.vin,
+                year: car.year,
+                brand: car.brand,
+                color: car.color
+            };
         }
         this.saveDataToLocalStorage();
     };
     CarService.prototype.deleteCar = function (id) {
-        var index;
+        var index = this.getIndexById(id);
+        if (index) {
+            this.listCars.splice(index, 1);
+            this.saveDataToLocalStorage();
+        }
+    };
+    CarService.prototype.getIndexById = function (id) {
         for (var i = 0; i < this.listCars.length; i++) {
             if (this.listCars[i].id === id) {
-                index = i;
+                return i;
             }
         }
-        this.listCars.slice(index, 1);
-        this.saveDataToLocalStorage();
     };
     CarService.prototype.saveDataToLocalStorage = function () {
         var objCars = { cars: this.listCars };
